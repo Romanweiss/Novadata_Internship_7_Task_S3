@@ -1,0 +1,21 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: s3-pipeline-app
+    env_file:
+      - .env
+    environment:
+      WATCH_USE_POLLING: "true"
+    working_dir: /app
+    command: ["python", "scripts/run_pipeline.py"]
+    volumes:
+      - ./watch:/app/watch
+      - ./archive:/app/archive
+      - ./logs:/app/logs
+      - ./downloads:/app/downloads
+      - ./tmp:/app/tmp
+    init: true
+    stdin_open: true
+    tty: true

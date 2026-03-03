@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments
+.env
+.venv/
+venv/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Runtime folders (keep dir structure via .gitkeep)
+logs/*
+!logs/.gitkeep
+watch/*
+!watch/.gitkeep
+archive/*
+!archive/.gitkeep
+downloads/*
+!downloads/.gitkeep
+tmp/*
+!tmp/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local helper docs
+SUBMISSION_ACTIONS.txt
