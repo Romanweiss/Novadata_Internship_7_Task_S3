@@ -8,6 +8,25 @@
 - демо-скрипты для проверки S3-операций и versioning
 - Docker-пайплайн, который отслеживает директорию с новыми файлами, обрабатывает их через pandas, асинхронно загружает результат в S3 и архивирует исходники
 
+## Где реализован S3Client из условия
+Эталонный класс из задания реализован в файле `src/s3_client.py`.
+
+Соответствие методов:
+- `__init__(endpoint, access_key, secret_key, bucket, ...)`:
+  - инициализация `boto3.client('s3', endpoint_url=..., Config(signature_version='s3v4'))`
+- `upload(file_path, object_name)`:
+  - загрузка файла в бакет через `upload_file`
+- `download(object_name, save_path)`:
+  - скачивание объекта через `download_file`
+- `list_files(prefix=None)`:
+  - получение полного списка объектов с пагинацией `list_objects_v2`
+- `file_exists(object_name)`:
+  - проверка через `head_object`, `False` для 404/NoSuchKey, остальные ошибки пробрасываются
+
+Отличия от минимального шаблона:
+- добавлены `typing`, логирование и понятные сообщения об ошибках
+- добавлена SSL-конфигурация (`S3_VERIFY_SSL`, `S3_CA_BUNDLE`)
+
 ## Назначение
 Проект решает типовой сценарий data ingestion:
 1. входной файл появляется в `watch/`
