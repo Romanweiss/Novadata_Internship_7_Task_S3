@@ -72,7 +72,6 @@
 Создать файл из шаблона:
 
 ```powershell
-cd project
 copy .env.example .env
 ```
 
@@ -192,7 +191,7 @@ docker compose run --rm app python scripts/demo_task3.py
 ## Структура проекта
 
 ```text
-project/
+.
   Dockerfile
   docker-compose.yml
   .env.example
