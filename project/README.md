@@ -155,6 +155,40 @@ docker compose run --rm app python scripts/demo_task2_verify.py
 docker compose run --rm app python scripts/demo_task3.py
 ```
 
+## Проверка корректности пайплайна
+
+1. Запустить пайплайн:
+
+```powershell
+docker compose up --build
+```
+
+2. В другом терминале сгенерировать тестовый CSV:
+
+```powershell
+docker compose run --rm app python scripts/demo_task3.py
+```
+
+3. Убедиться по логам (`docker compose logs -f`), что для нового CSV есть последовательность этапов:
+- `Waiting for file to be ready`
+- `File ready`
+- `Detected input format`
+- `Processed file saved`
+- `Uploaded ... to s3://<bucket>/<key>`
+- `Source file moved to archive`
+- `Uploaded log snapshot`
+
+4. Проверить артефакты корректной обработки:
+- исходный файл перемещен в `archive/`
+- обработанный временный файл не остается в `tmp/` (после upload удаляется)
+- в бакете появляется новый объект в `S3_PREFIX` (обычно `processed/`)
+- объект `LOG_OBJECT_KEY` (обычно `logs/pipeline.log`) обновляется после каждого файла
+
+5. Проверка устойчивости:
+- неподдерживаемые расширения (например `.txt`) игнорируются с INFO-логом
+- недописанные/пустые CSV не обрабатываются преждевременно (ждем стабилизации файла + retry чтения)
+- при неуспешном чтении после retry исходник переносится в `archive/failed`
+
 ## Структура проекта
 
 ```text

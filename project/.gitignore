@@ -16,6 +16,7 @@ venv/
 build/
 dist/
 *.egg-info/
+*.rar
 
 # Runtime folders (keep dir structure via .gitkeep)
 logs/*
@@ -28,6 +29,7 @@ downloads/*
 !downloads/.gitkeep
 tmp/*
 !tmp/.gitkeep
+screenshots/
 
 # OS / editor
 .DS_Store
